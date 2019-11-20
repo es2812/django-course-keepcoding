@@ -10,7 +10,7 @@
     {% if photo_list|length > 0 %}
         <h2>Últimas fotos publicadas</h2>
         {% for photo in photo_list %}
-            <img src="{{ photo.url }}" alt="{{ photo.name }}" height=200> 
+            <img src="{{ photo.url }}" alt="{{ photo.name }}" height=150> 
         {% endfor %}
     {% else %}
         No hay fotos publicadas
