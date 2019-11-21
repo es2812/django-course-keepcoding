@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Bienvenido a Frikr</title>
-</head>
-<body>
-    <h1>Bienvenido a Frikr</h1>
-    
+
+{% extends 'base.html' %}
+
+{% block section%}
+    <h1>Bienvenido a Frikr</h1>    
     {% if photo_list|length > 0 %}
         <h2>Últimas fotos publicadas</h2>
         {% for photo in photo_list %}
@@ -17,6 +13,4 @@
     {% else %}
         No hay fotos publicadas
     {% endif %}
-
-</body>
-</html>
+{% endblock %}
