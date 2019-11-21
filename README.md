@@ -11,3 +11,4 @@ This tutorial works with Python 2.6 and Django 1.9. Changes have been made in so
 - Section 10:
   - Since Django 2.0 the ForeignKey constructor requires an additional attribute, `on_delete`.
   - With Python 3 django no longer complains when given an UTF-8 character.
+  - The syntax `<int:var>` can be used in the path method to recognize integers instead of using regex.

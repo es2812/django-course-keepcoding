@@ -19,5 +19,6 @@ from photos import views as photo_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', photo_views.home)
+    path('', photo_views.home),
+    path('photos/<int:photo_id>/', photo_views.detail)
 ]
