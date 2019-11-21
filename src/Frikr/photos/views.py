@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
-from photos.models import Photo
+from photos.models import Photo, PUBLIC
 
 def home(request):
-    photos = Photo.objects.all().order_by('-created_at')
+    photos = Photo.objects.filter(visibility=PUBLIC).order_by('-created_at')
     context = {
         "photo_list": photos[0:5]
     }
