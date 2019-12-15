@@ -24,6 +24,7 @@ urlpatterns = [
     # Photos URLs
     path('', photo_views.home, name="photos_home"),
     path('photos/<int:photo_id>/', photo_views.detail, name="photos_detail"),
+    path('photos/create', photo_views.create, name="create_photo"),
 
     # Users URLs
     path('login', user_views.login, name="users_login"),
