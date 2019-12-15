@@ -6,17 +6,18 @@ def login(request):
     error_msg = []
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        username = form.get('usr')
-        password = form.get('pwd')
-        user = authenticate(username=username, password=password)
-        if user is None:
-            error_msg.append('Nombre de usuario o contraseña incorrectos')
-        else:
-            if user.is_active:
-                django_login(request, user)
-                return redirect('photos_home')
+        if form.is_valid():
+            username = form.cleaned_data.get('usr')
+            password = form.cleaned_data.get('pwd')
+            user = authenticate(username=username, password=password)
+            if user is None:
+                error_msg.append('Nombre de usuario o contraseña incorrectos')
             else:
-                error_msg.append('Usuario no activo')
+                if user.is_active:
+                    django_login(request, user)
+                    return redirect('photos_home')
+                else:
+                    error_msg.append('Usuario no activo')
     else:
         form = LoginForm()
     context = {
