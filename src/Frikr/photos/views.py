@@ -31,7 +31,9 @@ def create(request):
     if request.method == "GET":
         form = PhotoForm()
     else:
-        form = PhotoForm(request.POST)
+        owned_photo = Photo()
+        owned_photo.owner = request.user #asign authenticated user as owner    
+        form = PhotoForm(request.POST, instance=owned_photo)
         if form.is_valid():
             new_photo = form.save() # Saves Photo object and returns it
             form = PhotoForm()
