@@ -1,15 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import CASCADE
-COPYRIGHT = 'RIG'
-COPYLEFT = 'LEF'
-CREATIVE_COMMONS = 'CC'
-
-LICENSES = (
-    (COPYRIGHT, 'Copyright'),
-    (COPYLEFT, 'Copyleft'),
-    (CREATIVE_COMMONS, 'Creative Commons')
-)
+from photos.settings import LICENSES
 
 PRIVATE = 'PRI'
 PUBLIC = 'PUB'
@@ -18,6 +10,7 @@ VISIBILITY = {
     (PRIVATE, 'Privada'),
     (PUBLIC, 'Pública')
 }
+
 class Photo(models.Model):
 
     owner = models.ForeignKey(User, on_delete=CASCADE)
