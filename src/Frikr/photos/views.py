@@ -3,6 +3,7 @@ from django.http.response import HttpResponse, HttpResponseNotFound
 from photos.models import Photo, PUBLIC
 from photos.forms import PhotoForm
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     photos = Photo.objects.filter(visibility=PUBLIC).order_by('-created_at')
@@ -24,6 +25,7 @@ def detail(request, photo_id):
     else:
         return HttpResponseNotFound() # 404 not found
 
+@login_required()
 def create(request):
     success_msg = ""
     if request.method == "GET":

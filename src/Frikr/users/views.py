@@ -15,7 +15,7 @@ def login(request):
             else:
                 if user.is_active:
                     django_login(request, user)
-                    return redirect('photos_home')
+                    return redirect(request.GET.get("next", default='photos_home'))
                 else:
                     error_msg.append('Usuario no activo')
     else:
