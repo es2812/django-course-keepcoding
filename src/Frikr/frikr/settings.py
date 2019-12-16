@@ -132,3 +132,7 @@ LICENSES = (
     ("APACHE", "Apache 2.0"),
     ("GNU", "GNU 1.0")
 )
+
+# BADWORDS
+
+BADWORDS = [ "booboo", "ón" ]

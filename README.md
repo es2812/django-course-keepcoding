@@ -14,3 +14,6 @@ This tutorial works with Python 2.6 and Django 1.9. Changes have been made in so
   - The syntax `<int:var>` can be used in the path method to recognize integers instead of using regex.
 - Section 11:
   - Since Django 2.0 the `User.is_authenticated` property cannot be called as a method.
+- Section 12:
+  - In Python 3 the `super` method call doesn't require the object or self attributes.
+  - In Python 3 `UnicodeDecodeError` is not thrown anymore with an UTF-8 character.
