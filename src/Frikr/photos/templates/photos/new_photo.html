@@ -9,6 +9,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        {% if msg %} <span style="color:green">{{ msg|safe }}</span> {% endif %}
         <div>
             <button>Crear foto</button>
         </div>

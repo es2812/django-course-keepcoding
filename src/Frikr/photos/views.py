@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http.response import HttpResponse, HttpResponseNotFound
 from photos.models import Photo, PUBLIC
 from photos.forms import PhotoForm
+from django.urls import reverse
 
 def home(request):
     photos = Photo.objects.filter(visibility=PUBLIC).order_by('-created_at')
@@ -24,16 +25,22 @@ def detail(request, photo_id):
         return HttpResponseNotFound() # 404 not found
 
 def create(request):
-    
+    success_msg = ""
     if request.method == "GET":
         form = PhotoForm()
     else:
         form = PhotoForm(request.POST)
         if form.is_valid():
             new_photo = form.save() # Saves Photo object and returns it
+            form = PhotoForm()
+            success_msg = "Foto guardada con éxito."
+            success_msg += "<a href='{0}'>".format(reverse('photos_detail', args=[new_photo.pk]))
+            success_msg += "Ver foto"
+            success_msg += "</a>."
 
     context = {
-        'form': form
+        'form': form,
+        'msg' : success_msg
     }
 
     return render(request, "photos/new_photo.html", context)
