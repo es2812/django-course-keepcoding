@@ -8,6 +8,17 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.db.models import Q
 
+class PhotosQueryset(object):
+    
+    def get_photos_queryset(self,request):
+        if not(request.user.is_authenticated):
+            photos = Photo.objects.filter(visibility=PUBLIC)
+        elif request.user.is_superuser:
+            photos = Photo.objects.all()
+        else:
+            photos = Photo.objects.filter(Q(owner=request.user) | Q(visibility=PUBLIC))
+        return photos
+
 class HomeView(View):
     def get(self, request):
         photos = Photo.objects.filter(visibility=PUBLIC).order_by('-created_at')
@@ -16,9 +27,9 @@ class HomeView(View):
         }
         return render(request, "photos/home.html", context)
 
-class DetailView(View):
+class DetailView(View, PhotosQueryset):
     def get(self, request, photo_id):
-        pos_photos = Photo.objects.filter(pk=photo_id).select_related('owner')
+        pos_photos = self.get_photos_queryset(request).filter(pk=photo_id).select_related('owner')
         photo = pos_photos[0] if len(pos_photos) == 1 else None
 
         if photo is not None:
@@ -61,7 +72,7 @@ class CreateView(View):
 
         return render(request, "photos/new_photo.html", context)
 
-class ListView(View):
+class ListView(View, PhotosQueryset):
     def get(self, request):
         """
         Returns:
@@ -69,15 +80,8 @@ class ListView(View):
         - Authenticated user's photos or other user's public photos
         - If user is superadmin, all photos
         """
-        if not(request.user.is_authenticated):
-            photos = Photo.objects.filter(visibility=PUBLIC)
-        elif request.user.is_superuser:
-            photos = Photo.objects.all()
-        else:
-            photos = Photo.objects.filter(Q(owner=request.user) | Q(visibility=PUBLIC))
-
         context = {
-            'photos':photos
+            'photos':self.get_photos_queryset(request)
         }
 
         return render(request, 'photos/photos_list.html', context)
