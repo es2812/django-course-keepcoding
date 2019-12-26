@@ -129,7 +129,7 @@ LOGIN_URL = "users_login"
 # LICENSES
 
 LICENSES = (
-    ("APACHE", "Apache 2.0"),
+    ("APA", "Apache 2.0"),
     ("GNU", "GNU 1.0")
 )
 
