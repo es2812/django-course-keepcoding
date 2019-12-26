@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 
 class HomeView(View):
     def get(self, request):
@@ -59,3 +60,24 @@ class CreateView(View):
         }
 
         return render(request, "photos/new_photo.html", context)
+
+class ListView(View):
+    def get(self, request):
+        """
+        Returns:
+        - Public photos if user is unauthenticated
+        - Authenticated user's photos or other user's public photos
+        - If user is superadmin, all photos
+        """
+        if not(request.user.is_authenticated):
+            photos = Photo.objects.filter(visibility=PUBLIC)
+        elif request.user.is_superuser:
+            photos = Photo.objects.all()
+        else:
+            photos = Photo.objects.filter(Q(owner=request.user) | Q(visibility=PUBLIC))
+
+        context = {
+            'photos':photos
+        }
+
+        return render(request, 'photos/photos_list.html', context)

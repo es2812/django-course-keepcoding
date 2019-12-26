@@ -5,11 +5,7 @@
     <h1>Bienvenido a Frikr</h1>    
     {% if photo_list|length > 0 %}
         <h2>Últimas fotos publicadas</h2>
-        {% for photo in photo_list %}
-            <a href="{% url 'photos_detail' photo.pk%}">
-                <img src="{{ photo.url }}" alt="{{ photo.name }}" height=150> 
-            </a>
-        {% endfor %}
+        {% include 'photos/photo_loop.html' %}
     {% else %}
         No hay fotos publicadas
     {% endif %}
