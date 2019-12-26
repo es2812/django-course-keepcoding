@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from photos import views as photo_views
-from photos.views import HomeView, DetailView
+
+from photos.views import HomeView, DetailView, CreateView
 from users.views import LoginView, LogoutView
 
 urlpatterns = [
@@ -25,7 +25,7 @@ urlpatterns = [
     # Photos URLs
     path('', HomeView.as_view(), name="photos_home"),
     path('photos/<int:photo_id>/', DetailView.as_view(), name="photos_detail"),
-    path('photos/create', photo_views.create, name="create_photo"),
+    path('photos/create', CreateView.as_view(), name="create_photo"),
 
     # Users URLs
     path('login', LoginView.as_view(), name="users_login"),

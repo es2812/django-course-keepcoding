@@ -5,6 +5,7 @@ from photos.forms import PhotoForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
+from django.utils.decorators import method_decorator
 
 class HomeView(View):
     def get(self, request):
@@ -27,12 +28,20 @@ class DetailView(View):
         else:
             return HttpResponseNotFound() # 404 not found
 
-@login_required()
-def create(request):
-    success_msg = ""
-    if request.method == "GET":
+class CreateView(View):
+    @method_decorator(login_required())
+    def get(self, request):
         form = PhotoForm()
-    else:
+        context = {
+            'form': form,
+            'msg' : ""
+        }
+
+        return render(request, "photos/new_photo.html", context)
+    
+    @method_decorator(login_required())
+    def post(self, request):
+        success_msg = ""
         owned_photo = Photo()
         owned_photo.owner = request.user #asign authenticated user as owner    
         form = PhotoForm(request.POST, instance=owned_photo)
@@ -44,9 +53,9 @@ def create(request):
             success_msg += "Ver foto"
             success_msg += "</a>."
 
-    context = {
-        'form': form,
-        'msg' : success_msg
-    }
+        context = {
+            'form': form,
+            'msg' : success_msg
+        }
 
-    return render(request, "photos/new_photo.html", context)
+        return render(request, "photos/new_photo.html", context)
