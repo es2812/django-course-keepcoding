@@ -1,49 +1,18 @@
-"""frikr URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth.decorators import login_required
 
-from photos.views import HomeView, DetailView, CreateView, PhotoListView, UserPhotosView
-from photos.api import PhotoViewSet
+import photos.urls as photos_urls
+import users.urls as users_urls
 
-from users.views import LoginView, LogoutView
-from users.api import UserViewSet
-
-from rest_framework.routers import DefaultRouter
-
-# APIRouter
-router = DefaultRouter()
-router.register('api/1.0/photos', PhotoViewSet)
-router.register('api/1.0/users', UserViewSet, basename='user')
+import photos.api_urls as api_photos_urls
+import users.api_urls as api_users_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Photos URLs
-    path('', HomeView.as_view(), name="photos_home"),
-    path('photos', PhotoListView.as_view(), name="photos_list"),
-    path('photos/<int:pk>/', DetailView.as_view(), name="photos_detail"),
-    path('photos/create', CreateView.as_view(), name="create_photo"),
-    path('my-photos', login_required(UserPhotosView.as_view()), name="user_photos"),
-
-    # Users URLs
-    path('login', LoginView.as_view(), name="users_login"),
-    path('logout', LogoutView.as_view(), name="users_logout"),
-
-    # API URLs
-    path('', include(router.urls)),
+    path('', include(photos_urls)),
+    path('', include(users_urls)),
+    
+    path('api/', include(api_photos_urls)),
+    path('api/', include(api_users_urls))
 ]
