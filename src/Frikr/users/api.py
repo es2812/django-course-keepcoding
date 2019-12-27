@@ -29,3 +29,12 @@ class UserDetailAPI(APIView):
         serializer = UserSerializer(user)
 
         return Response(serializer.data)
+
+    def put(self, request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        serializer = UserSerializer(instance=user, data=request.data)
+        if serializer.is_valid():
+            updated_user = serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

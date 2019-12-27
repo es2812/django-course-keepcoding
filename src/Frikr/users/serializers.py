@@ -39,7 +39,10 @@ class UserSerializer(serializers.Serializer):
 
     def validate_username(self, data):
         users = User.objects.filter(username=data)
-        if len(users) == 0:
-            return data
-        else:
+
+        # if we are creating (there's no instance on self) check if username exists
+        # if we are updating, and the new username is different from instance (username is being changed) and there's already users registered with that username
+        if (not(self.instance) or self.instance.username != data) and len(users)!=0:
             raise serializers.ValidationError("Ya existe un usuario con ese username")
+        else:
+            return data
