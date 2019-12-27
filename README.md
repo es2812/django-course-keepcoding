@@ -1,7 +1,7 @@
 # django-course-keepcoding
 General repository for code used in the keepcoding.io course: Django + Python &amp; REST
 
-This tutorial works with Python 2.6 and Django 1.9. Changes have been made in some instances to adapt the code to Python 3 and Django 2.2. They are the following:
+This tutorial works with Python 2.6, Django 1.9 and Django REST Framework 3.1.3. Changes have been made in some instances to adapt the code to Python 3, Django 2.2 and Django REST Framework 3.3.3. They are the following:
 
 - Section 6:
   - URLs on frikr/urls.py are defined using the method `path`, instead of `url`, and using a normal string instead of a regex. 
@@ -19,3 +19,5 @@ This tutorial works with Python 2.6 and Django 1.9. Changes have been made in so
   - In Python 3 `UnicodeDecodeError` is not thrown anymore with an UTF-8 character.
 - Section 17:
   - In Django 2.2 the `static` tag must be loaded in the template before allowing usage.
+- Section 22:
+  - Since Django REST Framework 3.3.0 creating a `ModelSerializer` without a `fields` or `exclude` attribute is disallowed.
