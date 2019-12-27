@@ -14,14 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.decorators import login_required
 
 from photos.views import HomeView, DetailView, CreateView, PhotoListView, UserPhotosView
-from photos.api import PhotoListAPI, PhotoDetailAPI
+from photos.api import PhotoViewSet
 
 from users.views import LoginView, LogoutView
 from users.api import UserListAPI, UserDetailAPI
+
+from rest_framework.routers import DefaultRouter
+
+# APIRouter
+router = DefaultRouter()
+router.register('api/1.0/photos', PhotoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,13 +39,12 @@ urlpatterns = [
     path('photos/create', CreateView.as_view(), name="create_photo"),
     path('my-photos', login_required(UserPhotosView.as_view()), name="user_photos"),
 
-    # Photos API URLs
-    path('api/1.0/photos/', PhotoListAPI.as_view(), name="photo_list_api"),
-    path('api/1.0/photos/<int:pk>', PhotoDetailAPI.as_view(), name="photo_detail_api"),
-
     # Users URLs
     path('login', LoginView.as_view(), name="users_login"),
     path('logout', LogoutView.as_view(), name="users_logout"),
+
+    # Photo API URLs
+    path('', include(router.urls)),
 
     # Users API URLs
     path('api/1.0/users/', UserListAPI.as_view(), name="user_list_api"),
