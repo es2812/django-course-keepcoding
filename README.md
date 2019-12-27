@@ -1,4 +1,6 @@
 # django-course-keepcoding
+## Course finished on December 27th 2019
+
 General repository for code used in the keepcoding.io course: Django + Python &amp; REST
 
 This tutorial works with Python 2.6, Django 1.9 and Django REST Framework 3.1.3. Changes have been made in some instances to adapt the code to Python 3, Django 2.2 and Django REST Framework 3.3.3. They are the following:
