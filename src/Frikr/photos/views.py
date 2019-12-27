@@ -28,8 +28,8 @@ class HomeView(View):
         return render(request, "photos/home.html", context)
 
 class DetailView(View, PhotosQueryset):
-    def get(self, request, photo_id):
-        pos_photos = self.get_photos_queryset(request).filter(pk=photo_id).select_related('owner')
+    def get(self, request, pk):
+        pos_photos = self.get_photos_queryset(request).filter(pk=pk).select_related('owner')
         photo = pos_photos[0] if len(pos_photos) == 1 else None
 
         if photo is not None:

@@ -18,7 +18,7 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 
 from photos.views import HomeView, DetailView, CreateView, PhotoListView, UserPhotosView
-from photos.api import PhotoListAPI
+from photos.api import PhotoListAPI, PhotoDetailAPI
 
 from users.views import LoginView, LogoutView
 from users.api import UserListAPI, UserDetailAPI
@@ -29,12 +29,13 @@ urlpatterns = [
     # Photos URLs
     path('', HomeView.as_view(), name="photos_home"),
     path('photos', PhotoListView.as_view(), name="photos_list"),
-    path('photos/<int:photo_id>/', DetailView.as_view(), name="photos_detail"),
+    path('photos/<int:pk>/', DetailView.as_view(), name="photos_detail"),
     path('photos/create', CreateView.as_view(), name="create_photo"),
     path('my-photos', login_required(UserPhotosView.as_view()), name="user_photos"),
 
     # Photos API URLs
     path('api/1.0/photos/', PhotoListAPI.as_view(), name="photo_list_api"),
+    path('api/1.0/photos/<int:pk>', PhotoDetailAPI.as_view(), name="photo_detail_api"),
 
     # Users URLs
     path('login', LoginView.as_view(), name="users_login"),
@@ -42,5 +43,5 @@ urlpatterns = [
 
     # Users API URLs
     path('api/1.0/users/', UserListAPI.as_view(), name="user_list_api"),
-    path('api/1.0/users/<int:user_id>', UserDetailAPI.as_view(), name="user_detail_api")
+    path('api/1.0/users/<int:pk>', UserDetailAPI.as_view(), name="user_detail_api")
 ]
