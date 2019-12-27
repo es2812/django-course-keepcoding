@@ -21,3 +21,5 @@ This tutorial works with Python 2.6, Django 1.9 and Django REST Framework 3.1.3.
   - In Django 2.2 the `static` tag must be loaded in the template before allowing usage.
 - Section 22:
   - Since Django REST Framework 3.3.0 creating a `ModelSerializer` without a `fields` or `exclude` attribute is disallowed.
+- Section 27:
+  - Since Django REST Framework 3.9.0 `Router.register` method's argument `base_name` is deprecated in favour of `basename`.

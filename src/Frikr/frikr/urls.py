@@ -21,13 +21,14 @@ from photos.views import HomeView, DetailView, CreateView, PhotoListView, UserPh
 from photos.api import PhotoViewSet
 
 from users.views import LoginView, LogoutView
-from users.api import UserListAPI, UserDetailAPI
+from users.api import UserViewSet
 
 from rest_framework.routers import DefaultRouter
 
 # APIRouter
 router = DefaultRouter()
 router.register('api/1.0/photos', PhotoViewSet)
+router.register('api/1.0/users', UserViewSet, basename='user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,10 +44,6 @@ urlpatterns = [
     path('login', LoginView.as_view(), name="users_login"),
     path('logout', LogoutView.as_view(), name="users_logout"),
 
-    # Photo API URLs
+    # API URLs
     path('', include(router.urls)),
-
-    # Users API URLs
-    path('api/1.0/users/', UserListAPI.as_view(), name="user_list_api"),
-    path('api/1.0/users/<int:pk>', UserDetailAPI.as_view(), name="user_detail_api")
 ]

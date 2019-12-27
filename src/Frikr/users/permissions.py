@@ -1,5 +1,4 @@
 from rest_framework.permissions import BasePermission
-import users.api
 
 class UserPermission(BasePermission):
 
@@ -7,11 +6,11 @@ class UserPermission(BasePermission):
         """
         Defines if authenticated user in request.user has permissions to act (GET, POST PUT or DELETE)
         """
-        if request.method == "POST": #creating user. Anyone can register
+        if view.action == 'create': #creating user. Anyone can register
             return True
         elif request.user.is_superuser: #superusers are allowed free access
             return True
-        elif isinstance(view, users.api.UserDetailAPI): 
+        elif view.action in ['retrieve','update','destroy']:
             # action is GET PUT or DELETE and user is not superuser.
             # PUT and DELETE are relegated to object permissions
             # if GET is access to detail, relegate to object permissions, if GET is access to listing then not allow

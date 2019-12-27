@@ -1,17 +1,17 @@
 from django.contrib.auth.models import User
 from users.serializers import UserSerializer
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from users.permissions import UserPermission
 
-class UserListAPI(APIView):
+from rest_framework.viewsets import ViewSet
 
+class UserViewSet(ViewSet):
     permission_classes = (UserPermission,)
-
-    def get(self, request):
+    
+    def list(self, request):
         self.check_permissions(request)
         paginator = PageNumberPagination()
         users = User.objects.all()
@@ -21,7 +21,7 @@ class UserListAPI(APIView):
 
         return paginator.get_paginated_response(serializer_users)
 
-    def post(self, request):
+    def create(self, request):
         self.check_permissions(request)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -30,11 +30,7 @@ class UserListAPI(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserDetailAPI(APIView):
-
-    permission_classes = (UserPermission,)
-
-    def get(self, request, pk):
+    def retrieve(self, request, pk):
         self.check_permissions(request)
         user = get_object_or_404(User, pk=pk)
         self.check_object_permissions(request, user)
@@ -42,7 +38,7 @@ class UserDetailAPI(APIView):
 
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    def update(self, request, pk):
         self.check_permissions(request)
         user = get_object_or_404(User, pk=pk)
         self.check_object_permissions(request, user)
@@ -53,7 +49,7 @@ class UserDetailAPI(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
+    def destroy(self, request, pk):
         self.check_permissions(request)
         user = get_object_or_404(User, pk=pk)
         self.check_object_permissions(request, user)
