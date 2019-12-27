@@ -6,8 +6,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         exclude = []
-
-    
+        read_only_fields = ('owner',)
 
 class PhotoListSerializer(PhotoSerializer):
 
