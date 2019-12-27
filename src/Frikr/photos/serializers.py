@@ -7,6 +7,8 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = Photo
         exclude = []
 
+    
+
 class PhotoListSerializer(PhotoSerializer):
 
     class Meta(PhotoSerializer.Meta):
